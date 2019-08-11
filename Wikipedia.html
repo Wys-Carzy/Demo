@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Wikipedia api Test</title>
+	<style type="text/css">
+		*{
+			margin: 0px;
+			padding: 0px;
+		}
+		body{
+			background-color: #092B40;
+			color: #fff;
+			width: 80%;
+			margin: 0 auto;
+			font-size: 18px;
+		}
+		input{
+			outline: none;
+			color: #fff;
+			position: relative;
+			background-color: transparent;
+			border: 0px;
+			width: 100%;
+			height: 100%;
+			font-size: 100%;
+			display: none;
+		}
+		#div_body{
+			margin-top: 250px;
+		}
+		a{
+			text-decoration: none;
+			color: #fff;
+		}
+		.div_a{
+			text-align: center;
+			height: 80px;
+			line-height: 80px;
+		}
+		.div-search {
+			border:4px solid #D96F32;
+			border-radius: 20px;
+			width: 30px;
+			height: 30px;
+			margin: 0 auto;
+			position: relative;
+			z-index: 1;
+		}
+		.collpased{
+			cursor: pointer;
+		}
+		.slant{
+    			position: absolute; 
+			    width: 18px; 
+			    height: 5px; 
+			    background: #D96F32; 
+			    border-radius: 1px;
+		}
+		.tail{
+				top: 365px;
+			    left: 50.6%;
+				-webkit-transform: rotate(45deg); 
+			    -moz-transform: rotate(45deg); 
+			    -ms-transform: rotate(45deg); 
+			    -o-transform: rotate(45deg); 
+			    transform: rotate(45deg); 
+		}
+		.right,.left{
+				width: 0px;
+				height: 2px;
+				left:57%; 
+				top: 348px;
+		}
+		.shrink{
+				z-index: 2;
+				height: 30px;
+				left:57%;
+				top:334px;
+				position: absolute;
+			    display: none;
+		}
+		.right{
+				-webkit-transform: rotate(45deg); 
+			    -moz-transform: rotate(45deg); 
+			    -ms-transform: rotate(45deg); 
+			    -o-transform: rotate(45deg); 
+			    transform: rotate(45deg); 
+			    /*display: none;*/
+		}
+		.left{
+				-webkit-transform: rotate(-45deg); 
+			    -moz-transform: rotate(-45deg); 
+			    -ms-transform: rotate(-45deg); 
+			    -o-transform: rotate(-45deg); 
+			    transform: rotate(-45deg); 
+			    /*display: none;*/
+		}
+		#div_body p{
+			text-align: center;
+			line-height: 80px;
+		}
+		#result{
+			display:none;
+			margin-top:20px;
+		}
+		#result ul{
+			list-style:none;
+			padding:0;
+		}
+		#result li{
+			color:black;
+			padding-left:6px;
+		}
+		#result li:hover{
+			background-color:#D96F32;
+		}
+		#result ul li a{
+			color:black;
+			padding:16px 16px 2px 24px;
+			margin:16px 0 0 0;
+			display:block;
+			background-color:#E6E6E7;
+		}
+		#result ul li a p{
+			margin-top:18px;
+			margin-bottom:18px;
+		}
+	</style>
+</head>
+<body>
+	<div id="div_body">
+		<div class="div_a">
+			<a href="http://en.wikipedia.org/wiki/Special:Random" target="_blank">点击获得一个随机条目</a>
+		</div>
+		<form>
+			<div class="expand">
+				<div class="div-search collpased">
+					<input class="search" id="search_val" type="text">
+				</div>
+				<div class="slant tail"></div>
+				<div class="shrink X"></div>	
+				<div class="slant right X"></div>
+				<div class="slant left X"></div>
+			</div>	
+		</form>
+		<p>点击图标进行搜索</p>
+	</div>
+	<div id="result">
+			
+	</div>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			setEventHandler();
+		});
+		function setEventHandler(){
+			$('.expand').on("click",'.collpased',function(event){
+				expandInput();
+			});
+
+			$('.X').on('click', function() {
+				shrinkInput();
+			});
+
+			$('form').on('submit',function(event){
+				event.preventDefault();
+				search();
+			});
+		}
+		function search(){
+			var str = $('#search_val').val();
+			var dataNum = 12;
+			$('p').hide();
+			$('#div_body').animate({'margin-top':'0px'},200);//输入框移去页面顶部
+			$('.X').animate({'top':'98px'},200);//输入框尾部X移去顶部位置
+			$('.shrink').animate({'top':'84px'},200);//输入框尾部X父div移去顶部位置
+			$.getJSON("https://en.wikipedia.org/w/api.php?action=query&titles="+encodeURIComponent(str)+ "&action=query&format=json&list=search&srsearch="+encodeURIComponent(str)+" &srlimit="+dataNum+"&srprop=snippet&callback=?",function (data){
+					// console.log(data)//查看返回的数据
+					dom(dataNum);
+					$.each(data.query.search,function(index,val){
+						var $a = $('#result a'),
+							$eQ = $a.eq(index),
+							$p = $eQ.find('p'),
+							$h3 = $eQ.find('h3'),
+							Wiki = 'https://en.wikipedia.org/wiki/';
+						$h3.html(val.title);
+						$p.html(val.snippet);
+						$eQ.attr(
+							{'href': Wiki+val.title}
+						);
+					});
+					$('#result').show();
+			});
+		}
+		//根据数量添加DOM
+		function dom(dataNum){
+			if(typeof dataNum ==="number"){
+				$('#result').html('<ul></ul>');
+				var ul = $('#result').find('ul');
+				for(var i=0;i<dataNum;i++){
+					ul.append('<li><a href=" " target="_blank"><h3></h3><p></p></a></li>');
+				}
+			}
+		}
+		//输入框展开
+		function expandInput(){
+			$('div.tail').animate({'width': '0px'},//放大镜尾巴隐藏
+				200, function() {
+					$('.div-search').animate({'width': '200px','padding':'0 45px 0 15px'},//输入框父div展开
+						200, function() {
+							$('.X').animate({'width': '18px'},//输入框尾部X显示
+								200,function(){
+									$('input').show().focus();//输入框显示
+									$('div').removeClass('collpased');//移除鼠标点击手势
+									$('.X').addClass('collpased');//输入框尾部X添加鼠标点击手势
+									$('.shrink').show();//输入框尾部X父div显示，点击隐藏事件靠这个div层
+								});
+						});
+				});
+		}
+		//输入框隐藏
+		function shrinkInput(){
+			$('input').val('').hide();//隐藏输入框并清空输入框文本
+			$('#result').hide();//隐藏搜索结果
+			$('.div-search').addClass('collpased');//放大镜主体添加鼠标点击手势
+			$('.X').removeClass('collpased');//移除鼠标点击手势
+			$('.X').animate({'width':'0px'},//输入框尾部X隐藏
+				200, function() {
+					$('#div_body').animate({'margin-top':'250px'},200);//搜索后点击X还原到页面中心
+					$('.X').animate({'top':'348px'},200);//搜索后点击X还原X的位置
+					$('.shrink').animate({'top':'334px'},200);//搜索后点击X还原X父div层的位置
+					$('.div-search').animate({'width': '30px','padding':'0'},//还原放大镜主体
+						200,function(){
+							$('div.tail').animate({'width': '18px'});//还原放大镜尾巴
+						});
+				});
+		}
+			
+		
+	</script>
+</body>
+</html>

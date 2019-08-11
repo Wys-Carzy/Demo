@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文本溢出</title>
+	<style type="text/css">
+		/*多行文本溢出*/
+		.div2{
+			border:1px solid red;
+			width: 300px;
+			height: 100px;
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-box-orient:vertical;
+			-webkit-line-clamp:3;
+		}
+		/*单行文本溢出*/
+		#div1{
+			border:1px solid red;
+			width: 100px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	</style>
+</head>
+<body>
+	<div id="div1">
+		adsfadfadsfadsfasdfasdfasdfasdfasdffffffffffffffffffffffffffffffasdf
+	</div>
+	<div class="div2">
+		asdfawdetea<br>
+		asdfawdetea<br>
+		asdfawdetea<br>
+		asdfawdetea<br>
+		asdfawdetea<br>
+		asdfawdetea<br>
+		asdfawdetea<br>
+		asdfawdetea<br>
+		asdfawdetea<br>
+	</div>
+</body>
+</html>

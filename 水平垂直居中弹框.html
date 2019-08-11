@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>水平垂直居中弹框</title>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		.box{
+			border: 1px solid red;
+			width: 300px;
+			height:300px;
+			margin:100px;
+			position: fixed;
+		}
+		/*第一种方法，fixed+top+left+margin-top+margin-left*/
+		p{
+			width: 100px;
+			height:100px;
+			background-color: green;
+			position: fixed;
+			top:50%;
+			left:50%;
+			margin-top: -50px;
+			margin-left: -50px;
+		}
+		/*第二种方法,fixed+top+left+transform:translate(),兼容性问题*/
+		/*p{
+			width: 100px;
+			height:100px;
+			background-color: green;
+			position: fixed;
+			top:50%;
+			left:50%;
+			transform:translate(-50px,-50px);
+		}*/
+		/*第三种方法,技巧方法,不用算宽高*/
+		/*p{
+			width: 100px;
+			height:100px;
+			background-color: green;
+			position: fixed;
+			top:0;
+			left: 0;
+			bottom: 0;
+			right:0;
+			margin:auto;
+		}*/
+		/*第四种方法,弹性盒，缺点：不是相对浏览器定位*/
+		/*html{
+			height: 100%;
+		}
+		body{
+			display: flex;
+			justify-content:center;
+			align-items: center;
+			height:100%;
+		}
+		p{
+			width: 100px;
+			height:100px;
+			background-color: green;
+		}*/
+	</style>
+</head>
+<body>
+	<!-- <div class="box"> -->
+		<p></p>
+	<!-- </div> -->
+</body>
+</html>

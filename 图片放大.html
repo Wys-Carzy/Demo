@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片放大</title>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		#lg{
+			width: 300px;
+			height: 300px;
+			margin-left: 20px;
+		}
+		.middle{
+			display: none;
+		}
+		.small-box{
+			height: 80px;
+		}
+		.small{
+			border:1px solid #80808000; /*最后2位数代表透明*/
+			margin-right: 10px;
+			margin-top: 10px;
+			width: 50px;
+			height:50px;
+			padding: 3px;
+		}
+		.small:hover{
+			border: 1px solid #888;
+		}
+		/*0.5px的线*/
+		.box_2{ 
+			border-top: 1px solid red;
+			transform: scale(0.5,0.5);
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload=function(){
+			var lg_img = document.getElementById('lg');
+			var sm_img = document.getElementsByClassName('small');
+			for (var i = 0; i < sm_img.length; i++) {
+				sm_img[i].onmouseover = function(){
+						var img = this.getAttribute('src');//当鼠标移到第一个img时这里的this等于第一个img
+						lg_img.setAttribute('src',img);
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<div>
+		<div class="lg-box">
+			<img src="images/1.jpg" id="lg">
+		</div>
+		<div class="middle-box">
+			<img src="images/1.jpg" class="middle">
+			<div class="shadow"></div>
+		</div>
+			<div class="small-box">
+				<img src="images/1.jpg" class="small">
+				<img src="images/2.jpg" class="small">
+				<img src="images/3.jpg" class="small">
+				<img src="images/4.jpg" class="small">
+				<img src="images/5.jpg" class="small">
+			</div>
+	</div>
+	<div class="box_2">
+		
+	</div>
+</body>
+</html>

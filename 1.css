@@ -1,0 +1,70 @@
+*{
+	margin: 0;
+	padding:0;
+	color: black;
+	font-family: arial;
+}
+a{
+	text-decoration: none; /*去除超链接的下划线*/
+}
+.wrapper::after{ /* before元素内容前，after元素后*/ /*元素内容后清除浮动并且父元素包裹子元素*/
+	content: "";
+	clear: both;
+	display: block; /*将元素变成块级元素*/
+}
+.wrapper{
+	border:1px solid black;
+}
+.content{
+	float: left;
+	width: 100px;
+	height: 100px;
+	background-color:black;
+	color: #fff;
+}
+.nav{
+	list-style: none;
+}
+.nav::after{		/*元素内容后清除浮动并且父元素包裹子元素*/
+	content: "";
+	display: block;
+	clear: both;
+}
+.nav .list-item{
+	float: left;
+	margin: 0 10px;
+	height: 30px;
+	line-height: 30px;
+}
+.nav .list-item a{
+	padding:0 5px;
+	color: #f40;
+	font-weight: bold; /*字体粗细*/
+	display: block;
+	height: 30px;
+	border-radius: 15px;/*设置圆角*/
+}
+.nav .list-item a:hover{
+	background-color: #f40;
+	color: #fff;
+}
+p{
+	width: 300px;
+	height: 40px;
+	line-height: 20px;
+	border: 1px solid black;
+	/*文本溢出三兄弟*/
+	white-space: nowrap;/*文本不换行*/
+	overflow: hidden; /*多出部分隐藏*/
+	text-overflow: ellipsis;/*文本多出部分显示为...*/
+}
+.wrapper1{
+	height: 30px;
+	background-color: #123;
+}
+.content1{
+	margin: 0 auto; /*子DIV居中*/
+	width: 800px;
+	height: 30px;
+	background-color: #0f0;
+}
